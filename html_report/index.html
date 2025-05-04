@@ -73,6 +73,22 @@
         .button:hover {
             background-color: #2980b9;
         }
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        .progress-bar {
+            background-color: #e9ecef;
+            border-radius: 0.25rem;
+            height: 20px;
+            margin-bottom: 5px;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            border-radius: 0.25rem;
+            background-color: #3498db;
+        }
     </style>
 </head>
 <body>
@@ -88,13 +104,230 @@
         
         <div class="summary">
             <h2>Сводка по анализу</h2>
-            <p>Отчет сгенерирован: 05.05.2025 01:52:35</p>
+            <p>Отчет сгенерирован: 05.05.2025 01:59:24</p>
             <p>Количество проанализированных транскрипционных факторов: 12</p>
             
             <p>Этот анализ исследует сайты связывания транскрипционных факторов (ТФ) в промоторных областях генов
             от -2000 до +500 относительно сайта начала транскрипции (TSS).</p>
             
             <a href="interactive_heatmap.html" class="button">Просмотреть интерактивную тепловую карту</a>
+        </div>
+        
+        <div class="card">
+            <h2>Общая аналитика</h2>
+            <div class="analytics-grid">
+                <div>
+                    <h3>Топ-5 ТФ по количеству сайтов связывания</h3>
+                    <table>
+                        <tr>
+                            <th>Транскрипционный фактор</th>
+                            <th>Количество сайтов</th>
+                        </tr>
+
+                        <tr>
+                            <td>CTCF</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: 100.0%;"></div>
+                                </div>
+                                84
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>FOXA1</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: 100.0%;"></div>
+                                </div>
+                                84
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>MYC</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: 100.0%;"></div>
+                                </div>
+                                84
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>MYCN</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: 100.0%;"></div>
+                                </div>
+                                84
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>HNF4A</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: 100.0%;"></div>
+                                </div>
+                                84
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div>
+                    <h3>Топ-5 генов по количеству сайтов связывания</h3>
+                    <table>
+                        <tr>
+                            <th>Ген</th>
+                            <th>Количество сайтов</th>
+                        </tr>
+
+                        <tr>
+                            <td>ACTB</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: 100.0%;"></div>
+                                </div>
+                                48
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>ATF3</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: 100.0%;"></div>
+                                </div>
+                                48
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>BAX</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: 100.0%;"></div>
+                                </div>
+                                48
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>BBC3</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: 100.0%;"></div>
+                                </div>
+                                48
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>BTG2</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: 100.0%;"></div>
+                                </div>
+                                48
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div>
+                    <h3>Топ-5 ТФ по количеству регулируемых генов</h3>
+                    <table>
+                        <tr>
+                            <th>Транскрипционный фактор</th>
+                            <th>Количество генов</th>
+                        </tr>
+
+                        <tr>
+                            <td>CTCF</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: 100.0%;"></div>
+                                </div>
+                                21
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>FOXA1</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: 100.0%;"></div>
+                                </div>
+                                21
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>MYC</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: 100.0%;"></div>
+                                </div>
+                                21
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>MYCN</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: 100.0%;"></div>
+                                </div>
+                                21
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>HNF4A</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: 100.0%;"></div>
+                                </div>
+                                21
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div>
+                    <h3>Распределение сайтов связывания по ТФ</h3>
+                    <table>
+                        <tr>
+                            <th>Категория</th>
+                            <th>Количество ТФ</th>
+                        </tr>
+
+                        <tr>
+                            <td>Высокая активность (>50 сайтов)</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: 100.0%;"></div>
+                                </div>
+                                12
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Средняя активность (10-50 сайтов)</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: 0.0%;"></div>
+                                </div>
+                                0
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Низкая активность (1-9 сайтов)</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: 0.0%;"></div>
+                                </div>
+                                0
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Неактивные (0 сайтов)</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: 0.0%;"></div>
+                                </div>
+                                0
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
         
         <div class="card">

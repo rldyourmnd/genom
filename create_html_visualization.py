@@ -168,6 +168,45 @@ class HTMLVisualizer:
         # Пробуем создать/использовать интерактивную тепловую карту
         has_interactive_heatmap = self.check_interactive_heatmap()
         
+        # Подготовка аналитических данных
+        # Подсчет общего количества сайтов связывания для каждого ТФ
+        tf_binding_counts = {}
+        # Список генов для каждого ТФ с хотя бы 1 сайтом связывания
+        tf_target_genes = {}
+        # Общее количество сайтов связывания по всем ТФ для каждого гена
+        gene_binding_counts = {}
+        
+        if binding_results:
+            # Получаем уникальные имена генов из данных первого ТФ
+            first_tf = list(binding_results.values())[0]
+            gene_names = list(first_tf['binding_data'].keys())
+            
+            # Инициализируем счетчики для генов
+            for gene_name in gene_names:
+                gene_binding_counts[gene_name] = 0
+            
+            # Заполняем данные для аналитики
+            for tf_id, tf_data in binding_results.items():
+                total_sites = 0
+                tf_target_genes[tf_id] = []
+                
+                for gene_name, binding_sites in tf_data['binding_data'].items():
+                    sites_count = len(binding_sites)
+                    total_sites += sites_count
+                    gene_binding_counts[gene_name] += sites_count
+                    
+                    if sites_count > 0:
+                        tf_target_genes[tf_id].append(gene_name)
+                
+                tf_binding_counts[tf_id] = total_sites
+        
+        # Сортировка ТФ по количеству сайтов связывания (от большего к меньшему)
+        top_tfs = sorted(tf_binding_counts.items(), key=lambda x: x[1], reverse=True)
+        # Сортировка генов по количеству сайтов связывания (от большего к меньшему)
+        top_genes = sorted(gene_binding_counts.items(), key=lambda x: x[1], reverse=True)
+        # ТФ с наибольшим количеством целевых генов
+        tf_by_gene_count = sorted(tf_target_genes.items(), key=lambda x: len(x[1]), reverse=True)
+        
         # Создание index.html
         html = f"""<!DOCTYPE html>
 <html lang="ru">
@@ -244,6 +283,22 @@ class HTMLVisualizer:
         .button:hover {{
             background-color: #2980b9;
         }}
+        .analytics-grid {{
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }}
+        .progress-bar {{
+            background-color: #e9ecef;
+            border-radius: 0.25rem;
+            height: 20px;
+            margin-bottom: 5px;
+        }}
+        .progress-bar-fill {{
+            height: 100%;
+            border-radius: 0.25rem;
+            background-color: #3498db;
+        }}
     </style>
 </head>
 <body>
@@ -266,6 +321,159 @@ class HTMLVisualizer:
             от -2000 до +500 относительно сайта начала транскрипции (TSS).</p>
             
             {f'<a href="interactive_heatmap.html" class="button">Просмотреть интерактивную тепловую карту</a>' if has_interactive_heatmap else ''}
+        </div>
+        
+        <div class="card">
+            <h2>Общая аналитика</h2>
+            <div class="analytics-grid">
+                <div>
+                    <h3>Топ-5 ТФ по количеству сайтов связывания</h3>
+                    <table>
+                        <tr>
+                            <th>Транскрипционный фактор</th>
+                            <th>Количество сайтов</th>
+                        </tr>
+"""
+
+        # Добавляем топ-5 ТФ по количеству сайтов связывания
+        max_sites = top_tfs[0][1] if top_tfs else 0
+        for i, (tf_id, count) in enumerate(top_tfs[:5]):
+            if count > 0:
+                tf_info = get_tf_info(tf_id)
+                tf_name = tf_info.name if tf_info else tf_id
+                percent = (count / max_sites) * 100 if max_sites > 0 else 0
+                
+                html += f"""
+                        <tr>
+                            <td>{tf_name}</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: {percent}%;"></div>
+                                </div>
+                                {count}
+                            </td>
+                        </tr>"""
+                
+        html += """
+                    </table>
+                </div>
+                <div>
+                    <h3>Топ-5 генов по количеству сайтов связывания</h3>
+                    <table>
+                        <tr>
+                            <th>Ген</th>
+                            <th>Количество сайтов</th>
+                        </tr>
+"""
+
+        # Добавляем топ-5 генов по количеству сайтов связывания
+        max_gene_sites = top_genes[0][1] if top_genes else 0
+        for i, (gene_name, count) in enumerate(top_genes[:5]):
+            if count > 0:
+                percent = (count / max_gene_sites) * 100 if max_gene_sites > 0 else 0
+                
+                html += f"""
+                        <tr>
+                            <td>{gene_name}</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: {percent}%;"></div>
+                                </div>
+                                {count}
+                            </td>
+                        </tr>"""
+                
+        html += """
+                    </table>
+                </div>
+                <div>
+                    <h3>Топ-5 ТФ по количеству регулируемых генов</h3>
+                    <table>
+                        <tr>
+                            <th>Транскрипционный фактор</th>
+                            <th>Количество генов</th>
+                        </tr>
+"""
+
+        # Добавляем топ-5 ТФ по количеству регулируемых генов
+        max_gene_count = len(tf_by_gene_count[0][1]) if tf_by_gene_count else 0
+        for i, (tf_id, genes) in enumerate(tf_by_gene_count[:5]):
+            if len(genes) > 0:
+                tf_info = get_tf_info(tf_id)
+                tf_name = tf_info.name if tf_info else tf_id
+                percent = (len(genes) / max_gene_count) * 100 if max_gene_count > 0 else 0
+                
+                html += f"""
+                        <tr>
+                            <td>{tf_name}</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: {percent}%;"></div>
+                                </div>
+                                {len(genes)}
+                            </td>
+                        </tr>"""
+                
+        html += """
+                    </table>
+                </div>
+                <div>
+                    <h3>Распределение сайтов связывания по ТФ</h3>
+                    <table>
+                        <tr>
+                            <th>Категория</th>
+                            <th>Количество ТФ</th>
+                        </tr>
+"""
+
+        # Подсчет распределения ТФ по количеству сайтов связывания
+        high_count = sum(1 for _, count in tf_binding_counts.items() if count > 50)
+        medium_count = sum(1 for _, count in tf_binding_counts.items() if 10 <= count <= 50)
+        low_count = sum(1 for _, count in tf_binding_counts.items() if 1 <= count < 10)
+        zero_count = sum(1 for _, count in tf_binding_counts.items() if count == 0)
+        
+        total_tfs = len(tf_binding_counts)
+        
+        html += f"""
+                        <tr>
+                            <td>Высокая активность (>50 сайтов)</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: {high_count/total_tfs*100 if total_tfs else 0}%;"></div>
+                                </div>
+                                {high_count}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Средняя активность (10-50 сайтов)</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: {medium_count/total_tfs*100 if total_tfs else 0}%;"></div>
+                                </div>
+                                {medium_count}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Низкая активность (1-9 сайтов)</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: {low_count/total_tfs*100 if total_tfs else 0}%;"></div>
+                                </div>
+                                {low_count}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Неактивные (0 сайтов)</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: {zero_count/total_tfs*100 if total_tfs else 0}%;"></div>
+                                </div>
+                                {zero_count}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
         
         <div class="card">

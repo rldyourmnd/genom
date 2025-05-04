@@ -1,125 +1,115 @@
-# Transcription Factor Binding Site Analysis
+# Геном - Система анализа сайтов связывания транскрипционных факторов
 
-This project analyzes gene promoter regions for transcription factor (TF) binding sites using motifs from the JASPAR database. It creates a comprehensive database of TFs and analyzes gene sequences for potential binding sites.
+## Описание
+**Геном** - инструмент для идентификации и анализа сайтов связывания транскрипционных факторов (ТФ) в промоторных областях генов. Программа анализирует последовательности ДНК в формате FASTA, находит потенциальные сайты связывания ТФ с использованием мотивов JASPAR и создает интерактивные визуализации результатов.
 
-## Features
+## Основные возможности
+- Анализ сайтов связывания ТФ в промоторных последовательностях генов
+- Интерактивная тепловая карта связывания ТФ с генами
+- Детальные профили для каждого гена и транскрипционного фактора
+- База знаний о ТФ и генах с подробными описаниями на русском языке
+- Возможность просмотра конкретных последовательностей и позиций связывания
+- HTML-отчеты с графиками и таблицами для удобного анализа результатов
 
-- Retrieves the latest transcription factor motifs from JASPAR database via API
-- Creates a local SQLite database with detailed TF information
-- Analyzes gene sequences for TF binding sites in the -2000 to +500bp region relative to TSS
-- Generates visualizations of binding site distributions and patterns
-- Creates an interactive HTML report with detailed gene and TF profiles
+## Установка
 
-## Requirements
-
-- Python 3.8+
-- Required packages:
-  - pyjaspar
-  - pandas
-  - biopython
-  - matplotlib
-  - seaborn
-  - sqlalchemy
-
-## Installation
-
-1. Clone this repository:
+1. Клонируйте репозиторий:
 ```
-git clone https://github.com/yourusername/tf-binding-analysis.git
-cd tf-binding-analysis
+git clone https://github.com/your-username/genom.git
+cd genom
 ```
 
-2. Install required packages:
+2. Установите необходимые зависимости:
 ```
-pip install pyjaspar pandas biopython matplotlib seaborn sqlalchemy
+pip install -r requirements.txt
 ```
 
-## Usage
+## Требования
+- Python 3.7+
+- NumPy
+- Pandas
+- Matplotlib
+- Seaborn
+- Plotly
+- Biopython
 
-### Basic Usage
+## Использование
 
-Run the main script to perform a complete analysis:
-
+### Стандартный анализ
 ```
 python main.py
 ```
+Запускает полный анализ - от загрузки последовательностей генов до создания отчетов.
 
-This will:
-1. Fetch all TF motifs from JASPAR (if not already downloaded)
-2. Create a SQLite database with TF information
-3. Analyze all gene sequences in the `genes/` directory
-4. Generate visualizations and summary reports
-5. Create an HTML report in the `html_report/` directory
-
-### Command Line Options
-
-- `--genes-dir`: Directory containing gene FASTA files (default: 'genes')
-- `--results-dir`: Directory to store results (default: 'results')
-- `--html-dir`: Directory to store HTML visualization (default: 'html_report')
-- `--threshold`: Threshold for binding site detection (0.0-1.0) (default: 0.8)
-- `--test-mode`: Run in test mode with a subset of TFs
-- `--update-db`: Force update of the JASPAR database
-- `--skip-analysis`: Skip gene analysis, only generate visualization from existing results
-
-### Examples
-
-Run in test mode (faster, uses only a subset of TFs):
+### Только интерактивная визуализация
 ```
-python main.py --test-mode
+python main.py --interactive-only
+```
+Создает только интерактивную тепловую карту на основе уже имеющихся результатов.
+
+### Загрузка мотивов JASPAR
+```
+python main.py --download-motifs
+```
+Загружает последние мотивы из базы данных JASPAR перед выполнением анализа.
+
+### Полный список параметров
+```
+python main.py --help
 ```
 
-Update the JASPAR database and rerun the analysis:
-```
-python main.py --update-db
-```
+## Структура проекта
 
-Use a different binding site detection threshold:
-```
-python main.py --threshold 0.7
-```
+- `main.py` - основной скрипт для запуска анализа
+- `simplified_binding_analysis.py` - модуль анализа сайтов связывания
+- `interactive_heatmap.py` - создание интерактивной тепловой карты
+- `create_html_visualization.py` - генерация HTML-отчетов
+- `tf_gene_database.py` - база знаний о транскрипционных факторах и генах
+- `genes/` - директория с FASTA-файлами генов для анализа
+- `results/` - директория для сохранения результатов анализа
+- `html_report/` - директория с HTML-отчетами
 
-Skip analysis and just generate HTML report from existing results:
-```
-python main.py --skip-analysis
-```
+## Компоненты системы
 
-## Project Structure
+### Анализатор сайтов связывания
+Определяет потенциальные сайты связывания ТФ в последовательностях генов с использованием позиционных весовых матриц (PWM).
 
-- `jaspar_api.py`: Interface to JASPAR database, fetches TF motifs
-- `tf_database_manager.py`: Manages the SQLite database of TF information
-- `tf_binding_analyzer.py`: Analyzes gene sequences for TF binding sites
-- `create_html_visualization.py`: Generates the HTML report
-- `main.py`: Orchestrates the entire analysis workflow
-- `genes/`: Directory containing gene FASTA files
-- `results/`: Directory for analysis results and visualizations
-- `html_report/`: Directory for HTML report files
+### Интерактивная тепловая карта
+Визуализирует взаимодействия между транскрипционными факторами и генами в виде интерактивной тепловой карты:
+- Цветовое кодирование по количеству сайтов связывания
+- Всплывающие подсказки с детальной информацией
+- Интерактивное отображение подробностей при клике на ячейки
 
-## Gene Input Format
+### База знаний
+Содержит подробную информацию о транскрипционных факторах и генах:
+- Полные названия и описания
+- Функции и роли в клеточных процессах
+- Принадлежность к семействам и сигнальным путям
+- Связь с заболеваниями
 
-Place your gene promoter sequence files in the `genes/` directory. Each file should be in FASTA format and named after the gene (e.g., `GAPDH.fa`). The sequence should cover the region from -2000 to +500 relative to the transcription start site (TSS).
+### HTML-визуализация
+Генерирует комплексные отчеты в формате HTML:
+- Сводная информация об анализе
+- Тепловые карты и распределения
+- Профили генов с основными ТФ
+- Профили ТФ с основными генами
 
-Example FASTA format:
-```
->GENE_NAME promoter region -2000 to +500
-ACTGATCGATCGATCGTAGCTAGCTAGCTACGTAGCTAGCTACGT...
-```
+## Примеры анализа
 
-## Output Files
+1. **Поиск основных регуляторов гена**:
+   Найдите все ТФ, которые связываются с геном интереса в разделе "Гены".
 
-- `tf_database.json`: JSON file with all TF information
-- `tf_database.sqlite`: SQLite database with structured TF information
-- `transcription_factors.csv`: CSV file with all TF information
-- `binding_analysis_results.json`: JSON file with binding site analysis results
-- `binding_sites_summary.csv`: CSV summary of binding sites per gene per TF
-- `binding_heatmap.png`: Heatmap visualization of binding sites
-- `binding_site_distribution.png`: Distribution of binding sites relative to TSS
-- HTML report files in `html_report/` directory
+2. **Выявление целевых генов ТФ**:
+   Просмотрите список генов, с которыми взаимодействует конкретный ТФ, в разделе "Транскрипционные факторы".
 
-## License
+3. **Сравнительный анализ**:
+   Используйте интерактивную тепловую карту для сравнения паттернов связывания различных ТФ.
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+4. **Анализ конкретных сайтов**:
+   Кликните на ячейку тепловой карты для отображения детальной информации о последовательностях связывания.
 
-## Acknowledgements
+## Лицензия
+[MIT License](LICENSE)
 
-- JASPAR database for providing transcription factor binding profiles
-- Biopython for sequence analysis tools  
+## Авторы
+Проект разработан для анализа регуляторных взаимодействий между транскрипционными факторами и их целевыми генами.  
