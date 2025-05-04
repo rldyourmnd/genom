@@ -1,191 +1,125 @@
-# ATF Promoter Transcription Factor Analysis
+# Transcription Factor Binding Site Analysis
 
-Набор инструментов для анализа сайтов связывания транскрипционных факторов в промоторных последовательностях генов ATF3 и ATF2500 человека.
+This project analyzes gene promoter regions for transcription factor (TF) binding sites using motifs from the JASPAR database. It creates a comprehensive database of TFs and analyzes gene sequences for potential binding sites.
 
-## Назначение
+## Features
 
-Данный инструментарий разработан для:
-- Идентификации потенциальных сайтов связывания транскрипционных факторов в FASTA-последовательности
-- Визуализации распределения и плотности сайтов связывания
-- Создания логотипов мотивов и анализа нуклеотидного состава сайтов
-- Генерации комплексного отчета с результатами анализа
-- Сравнительного анализа регуляторных элементов в различных промоторных последовательностях
+- Retrieves the latest transcription factor motifs from JASPAR database via API
+- Creates a local SQLite database with detailed TF information
+- Analyzes gene sequences for TF binding sites in the -2000 to +500bp region relative to TSS
+- Generates visualizations of binding site distributions and patterns
+- Creates an interactive HTML report with detailed gene and TF profiles
 
-## Зависимости
+## Requirements
 
+- Python 3.8+
+- Required packages:
+  - pyjaspar
+  - pandas
+  - biopython
+  - matplotlib
+  - seaborn
+  - sqlalchemy
+
+## Installation
+
+1. Clone this repository:
 ```
-biopython
-pandas
-numpy
-matplotlib
-seaborn
-logomaker
-pillow
-markdown
-```
-
-## Структура проекта
-
-- `Homo_sapiens_ATF3_sequence (1).fa` - FASTA-файл с промоторной последовательностью ATF3
-- `ATF2500.fa` - FASTA-файл с промоторной последовательностью ATF2500
-- `tf_analysis.py` - основной скрипт анализа для ATF3
-- `atf2500_analysis.py` - скрипт анализа для ATF2500
-- `tf_motif_visualization.py` - скрипт для создания логотипов мотивов
-- `create_html_report.py` - скрипт для создания HTML-отчета для ATF3
-- `atf2500_html_report.py` - скрипт для создания HTML-отчета для ATF2500
-- `compare_atf_sequences.py` - скрипт для сравнительного анализа ATF3 и ATF2500
-- `comparison_html_report.py` - скрипт для создания сравнительного HTML-отчета
-
-### Файлы результатов анализа ATF3
-- `tf_analysis_report.md` - отчет в формате Markdown
-- `tf_analysis_report.html` - интерактивный HTML-отчет
-- `tf_binding_sites_count.png` - визуализация количества сайтов связывания
-- `tf_binding_sites_distribution.png` - визуализация распределения сайтов
-- `tf_binding_sites_heatmap.png` - тепловая карта плотности сайтов
-- `tf_logos/` - директория с логотипами мотивов
-- `tf_heatmaps/` - директория с тепловыми картами частот нуклеотидов
-- `tf_examples/` - директория с примерами сайтов связывания
-
-### Файлы результатов анализа ATF2500
-- `atf2500_analysis_report.md` - отчет в формате Markdown
-- `atf2500_analysis_report.html` - интерактивный HTML-отчет
-- `atf2500_tf_binding_sites_count.png` - визуализация количества сайтов связывания
-- `atf2500_tf_binding_sites_distribution.png` - визуализация распределения сайтов
-- `atf2500_tf_binding_sites_heatmap.png` - тепловая карта плотности сайтов
-
-### Файлы сравнительного анализа
-- `atf_comparison_report.md` - сравнительный отчет в формате Markdown
-- `atf_comparison_report.html` - интерактивный сравнительный HTML-отчет
-- `tf_comparison_normalized.png` - сравнение нормализованной плотности сайтов
-- `tf_comparison_heatmap.png` - тепловая карта сравнения плотности сайтов
-- `tf_position_comparison_*.png` - графики сравнения распределения по позициям для различных факторов
-
-## Описание функций
-
-### 1. tf_analysis.py и atf2500_analysis.py
-
-Основной скрипт для поиска и визуализации сайтов связывания транскрипционных факторов.
-
-Основные функции:
-- `read_fasta(file_path)` - чтение FASTA-последовательности
-- `find_motifs(sequence, motifs_dict)` - поиск мотивов в последовательности
-- `visualize_results(motifs_results, sequence_length)` - визуализация результатов анализа
-
-Поддерживаемые транскрипционные факторы:
-- TATA-box, CAAT-box, GC-box - базовые элементы промотора
-- E-box - сайты связывания bHLH-факторов
-- CRE, CREB - cAMP-зависимые регуляторные элементы
-- AP-1 - активаторный протеин 1
-- NF-kB - ядерный фактор каппа B
-- SP1 - специфический протеин 1
-- GATA - факторы семейства GATA
-- HRE - гормон-чувствительные элементы
-- STAT - сигнальные трансдукторы и активаторы транскрипции
-- NFAT - ядерный фактор активированных T-клеток
-- ETS - факторы семейства ETS
-- IRF - интерферон-регулирующие факторы
-- AP-2, ATF/CREB, OCT, YY1, NRF-1 - дополнительные факторы, добавленные для анализа ATF2500
-
-### 2. tf_motif_visualization.py
-
-Скрипт для детального анализа мотивов и создания их логотипов.
-
-Основные функции:
-- `extract_binding_site_sequences(sequence, positions, site_length, context_length)` - извлечение последовательностей вокруг сайтов связывания
-- `create_motif_logo(sequences, tf_name, output_dir)` - создание логотипа мотива
-- `create_heatmap(matrix, tf_name, output_dir)` - создание тепловой карты частот нуклеотидов
-- `save_example_sites(tf_name, sites, output_dir)` - сохранение примеров сайтов связывания
-
-### 3. create_html_report.py и atf2500_html_report.py
-
-Скрипты для создания интерактивных HTML-отчетов с результатами анализа.
-
-Основные функции:
-- `img_to_base64(img_path)` - конвертация изображений в формат base64 для встраивания в HTML
-- `create_html_report()` - создание HTML-отчета с таблицами, графиками и логотипами
-
-### 4. compare_atf_sequences.py и comparison_html_report.py
-
-Скрипты для сравнительного анализа последовательностей ATF3 и ATF2500.
-
-Основные функции:
-- `load_data()` - загрузка данных анализа для обеих последовательностей
-- `normalize_counts(data)` - нормализация количества сайтов связывания на 1000 нуклеотидов
-- `compare_tf_distribution(data)` - сравнение распределения транскрипционных факторов
-- `analyze_position_patterns(data)` - анализ паттернов расположения сайтов связывания
-- `find_common_regions(atf2500_seq, atf3_seq)` - поиск общих регионов между последовательностями
-- `create_comparison_report(data, alignment_results)` - создание отчета о сравнении
-- `md_to_html(md_file)` - конвертация markdown в HTML с встраиванием изображений
-
-## Использование
-
-### Базовый анализ ATF3
-```bash
-python tf_analysis.py
+git clone https://github.com/yourusername/tf-binding-analysis.git
+cd tf-binding-analysis
 ```
 
-### Базовый анализ ATF2500
-```bash
-python atf2500_analysis.py
+2. Install required packages:
+```
+pip install pyjaspar pandas biopython matplotlib seaborn sqlalchemy
 ```
 
-### Сравнительный анализ ATF3 и ATF2500
-```bash
-python compare_atf_sequences.py
+## Usage
+
+### Basic Usage
+
+Run the main script to perform a complete analysis:
+
+```
+python main.py
 ```
 
-### Создание HTML-отчетов
-```bash
-python create_html_report.py
-python atf2500_html_report.py
-python comparison_html_report.py
+This will:
+1. Fetch all TF motifs from JASPAR (if not already downloaded)
+2. Create a SQLite database with TF information
+3. Analyze all gene sequences in the `genes/` directory
+4. Generate visualizations and summary reports
+5. Create an HTML report in the `html_report/` directory
+
+### Command Line Options
+
+- `--genes-dir`: Directory containing gene FASTA files (default: 'genes')
+- `--results-dir`: Directory to store results (default: 'results')
+- `--html-dir`: Directory to store HTML visualization (default: 'html_report')
+- `--threshold`: Threshold for binding site detection (0.0-1.0) (default: 0.8)
+- `--test-mode`: Run in test mode with a subset of TFs
+- `--update-db`: Force update of the JASPAR database
+- `--skip-analysis`: Skip gene analysis, only generate visualization from existing results
+
+### Examples
+
+Run in test mode (faster, uses only a subset of TFs):
+```
+python main.py --test-mode
 ```
 
-## Результаты анализа
+Update the JASPAR database and rerun the analysis:
+```
+python main.py --update-db
+```
 
-### ATF3
-- Длина проанализированной последовательности: 57,944 нуклеотидов
-- Обнаружено более 2600 потенциальных сайтов связывания транскрипционных факторов
-- Наиболее представлены сайты для:
-  - ETS (1268 сайтов)
-  - IRF (381 сайт)
-  - E-box (291 сайт)
-  - NFAT (241 сайт)
-  - CAAT-box (190 сайтов)
-  - TATA-box (146 сайтов)
-- Обнаружены классические элементы промотора (TATA-box, CAAT-box, GC-box)
-- Подробные результаты представлены в файле `tf_analysis_report.html`
+Use a different binding site detection threshold:
+```
+python main.py --threshold 0.7
+```
 
-### ATF2500
-- Длина проанализированной последовательности: 2,501 нуклеотид
-- Обнаружено 146 потенциальных сайтов связывания транскрипционных факторов
-- Наиболее представлены сайты для:
-  - ETS (64 сайта)
-  - GC-box (24 сайта)
-  - IRF (14 сайтов)
-  - SP1 (12 сайтов)
-  - E-box (10 сайтов)
-- Обнаружена высокая плотность GC-box и SP1 сайтов
-- Всего один TATA-box, что указывает на возможное использование других механизмов инициации транскрипции
-- Подробные результаты представлены в файле `atf2500_analysis_report.html`
+Skip analysis and just generate HTML report from existing results:
+```
+python main.py --skip-analysis
+```
 
-### Сравнительный анализ
-- Идентичность последовательностей: 75.45% в выровненных регионах
-- Обе последовательности обогащены сайтами связывания ETS-факторов
-- ATF2500 имеет более высокую плотность GC-box и SP1 сайтов на 1000 нуклеотидов
-- ATF3 имеет более разнообразный набор транскрипционных факторов
-- ATF2500 содержит 5 уникальных транскрипционных факторов не найденных в ATF3
-- Подробное сравнение представлено в файле `atf_comparison_report.html`
+## Project Structure
 
-## Примеры визуализаций
+- `jaspar_api.py`: Interface to JASPAR database, fetches TF motifs
+- `tf_database_manager.py`: Manages the SQLite database of TF information
+- `tf_binding_analyzer.py`: Analyzes gene sequences for TF binding sites
+- `create_html_visualization.py`: Generates the HTML report
+- `main.py`: Orchestrates the entire analysis workflow
+- `genes/`: Directory containing gene FASTA files
+- `results/`: Directory for analysis results and visualizations
+- `html_report/`: Directory for HTML report files
 
-- Гистограммы количества сайтов связывания для каждого фактора
-- Диаграммы распределения сайтов вдоль последовательности
-- Тепловые карты плотности сайтов
-- Логотипы мотивов транскрипционных факторов
-- Тепловые карты частот нуклеотидов в мотивах
-- Сравнительные графики распределения сайтов связывания между последовательностями
+## Gene Input Format
 
-## Авторы
+Place your gene promoter sequence files in the `genes/` directory. Each file should be in FASTA format and named after the gene (e.g., `GAPDH.fa`). The sequence should cover the region from -2000 to +500 relative to the transcription start site (TSS).
 
-(с) 2025  
+Example FASTA format:
+```
+>GENE_NAME promoter region -2000 to +500
+ACTGATCGATCGATCGTAGCTAGCTAGCTACGTAGCTAGCTACGT...
+```
+
+## Output Files
+
+- `tf_database.json`: JSON file with all TF information
+- `tf_database.sqlite`: SQLite database with structured TF information
+- `transcription_factors.csv`: CSV file with all TF information
+- `binding_analysis_results.json`: JSON file with binding site analysis results
+- `binding_sites_summary.csv`: CSV summary of binding sites per gene per TF
+- `binding_heatmap.png`: Heatmap visualization of binding sites
+- `binding_site_distribution.png`: Distribution of binding sites relative to TSS
+- HTML report files in `html_report/` directory
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgements
+
+- JASPAR database for providing transcription factor binding profiles
+- Biopython for sequence analysis tools  

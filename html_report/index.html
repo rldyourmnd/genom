@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отчет по анализу сайтов связывания транскрипционных факторов</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .summary {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .nav {
+            background-color: #2c3e50;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 15px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        .button {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="index.html">Обзор</a>
+        <a href="genes.html">Гены</a>
+        <a href="tfs.html">Транскрипционные факторы</a>
+        <a href="interactive_heatmap.html">Интерактивная тепловая карта</a>
+    </div>
+    
+    <div class="container">
+        <h1>Отчет по анализу сайтов связывания транскрипционных факторов</h1>
+        
+        <div class="summary">
+            <h2>Сводка по анализу</h2>
+            <p>Отчет сгенерирован: 05.05.2025 01:52:35</p>
+            <p>Количество проанализированных транскрипционных факторов: 12</p>
+            
+            <p>Этот анализ исследует сайты связывания транскрипционных факторов (ТФ) в промоторных областях генов
+            от -2000 до +500 относительно сайта начала транскрипции (TSS).</p>
+            
+            <a href="interactive_heatmap.html" class="button">Просмотреть интерактивную тепловую карту</a>
+        </div>
+        
+        <div class="card">
+            <h2>Общее распределение сайтов связывания</h2>
+            <img src="binding_site_distribution.png" alt="Распределение сайтов связывания">
+        </div>
+        
+        <div class="card">
+            <h2>Тепловая карта сайтов связывания ТФ по генам</h2>
+            <img src="binding_heatmap.png" alt="Тепловая карта ТФ">
+            <br><a href="interactive_heatmap.html" class="button">Просмотреть интерактивную версию</a>
+        </div>
+    </div>
+</body>
+</html>
