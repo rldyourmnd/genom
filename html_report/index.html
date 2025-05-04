@@ -89,6 +89,20 @@
             border-radius: 0.25rem;
             background-color: #3498db;
         }
+        .family-card {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-left: 4px solid #3498db;
+            background-color: #f8f9fa;
+        }
+        .highlight {
+            background-color: #ffffcc;
+            font-weight: bold;
+        }
+        .small-text {
+            font-size: 0.85em;
+            color: #666;
+        }
     </style>
 </head>
 <body>
@@ -104,8 +118,10 @@
         
         <div class="summary">
             <h2>Сводка по анализу</h2>
-            <p>Отчет сгенерирован: 05.05.2025 02:10:26</p>
+            <p>Отчет сгенерирован: 05.05.2025 02:20:54</p>
             <p>Количество проанализированных транскрипционных факторов: 25</p>
+            <p>Количество проанализированных генов: 21</p>
+            <p>Общее количество обнаруженных сайтов связывания: 5378</p>
             
             <p>Этот анализ исследует сайты связывания транскрипционных факторов (ТФ) в промоторных областях генов
             от -2000 до +500 относительно сайта начала транскрипции (TSS).</p>
@@ -125,7 +141,7 @@
                         </tr>
 
                         <tr>
-                            <td>MA0442.2</td>
+                            <td>SOX10</td>
                             <td>
                                 <div class="progress-bar">
                                     <div class="progress-bar-fill" style="width: 100.0%;"></div>
@@ -152,7 +168,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>MA0778.1</td>
+                            <td>NFKB2</td>
                             <td>
                                 <div class="progress-bar">
                                     <div class="progress-bar-fill" style="width: 86.32707774798928%;"></div>
@@ -331,6 +347,145 @@
         </div>
         
         <div class="card">
+            <h2>Самые сильные сайты связывания</h2>
+            <table>
+                <tr>
+                    <th>Транскрипционный фактор</th>
+                    <th>Ген</th>
+                    <th>Последовательность</th>
+                    <th>Позиция</th>
+                    <th>Оценка</th>
+                </tr>
+
+                <tr>
+                    <td>RAMOSA1</td>
+                    <td>DDB2</td>
+                    <td><span class="highlight">GAGAGAGAGAGAGA</span></td>
+                    <td>-379</td>
+                    <td>25.536</td>
+                </tr>
+                <tr>
+                    <td>Pou5f1::Sox2</td>
+                    <td>GDF15</td>
+                    <td><span class="highlight">TATTCTCATGCAGAT</span></td>
+                    <td>-1418</td>
+                    <td>18.159</td>
+                </tr>
+                <tr>
+                    <td>SPI1</td>
+                    <td>PPM1D</td>
+                    <td><span class="highlight">AATAAAGGGGAAGTGGTTGA</span></td>
+                    <td>-1678</td>
+                    <td>16.221</td>
+                </tr>
+                <tr>
+                    <td>ZNF24</td>
+                    <td>SESN1</td>
+                    <td><span class="highlight">AACTCATTCATTT</span></td>
+                    <td>-1394</td>
+                    <td>14.497</td>
+                </tr>
+                <tr>
+                    <td>SOX10</td>
+                    <td>GADD45A</td>
+                    <td><span class="highlight">AAAACAAAGGA</span></td>
+                    <td>-1175</td>
+                    <td>14.357</td>
+                </tr>
+                <tr>
+                    <td>NFKB2</td>
+                    <td>BBC3</td>
+                    <td><span class="highlight">AGGGAAACCCCCG</span></td>
+                    <td>-184</td>
+                    <td>14.232</td>
+                </tr>
+                <tr>
+                    <td>FOXA1</td>
+                    <td>BTG2</td>
+                    <td><span class="highlight">CAGTAAACATCA</span></td>
+                    <td>-1254</td>
+                    <td>14.197</td>
+                </tr>
+                <tr>
+                    <td>EBF1</td>
+                    <td>TNFSF4</td>
+                    <td><span class="highlight">CCTCCCCAGGGAGCA</span></td>
+                    <td>-1000</td>
+                    <td>14.099</td>
+                </tr>
+                <tr>
+                    <td>HNF4A</td>
+                    <td>CCNG1</td>
+                    <td><span class="highlight">TCCAAAGTTCACG</span></td>
+                    <td>-532</td>
+                    <td>13.711</td>
+                </tr>
+                <tr>
+                    <td>MYC</td>
+                    <td>GDF15</td>
+                    <td><span class="highlight">ATCCACGTGCCT</span></td>
+                    <td>-943</td>
+                    <td>13.619</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="card">
+            <h2>Распределение ТФ по семействам</h2>
+
+            <div class="family-card">
+                <h3>bZIP (3 ТФ)</h3>
+                <p>Общее количество сайтов связывания: 1314</p>
+                <p>Основные ТФ: FOS::JUN (690 сайтов), JUND (266 сайтов), BATF (358 сайтов)</p>
+            </div>
+            <div class="family-card">
+                <h3>bHLH (3 ТФ)</h3>
+                <p>Общее количество сайтов связывания: 1090</p>
+                <p>Основные ТФ: MYC (378 сайтов), MYCN (712 сайтов), BHLHE22 (0 сайтов)</p>
+            </div>
+            <div class="family-card">
+                <h3>HMG (2 ТФ)</h3>
+                <p>Общее количество сайтов связывания: 746</p>
+                <p>Основные ТФ: SOX10 (746 сайтов), SOX4 (0 сайтов)</p>
+            </div>
+            <div class="family-card">
+                <h3>Rel (2 ТФ)</h3>
+                <p>Общее количество сайтов связывания: 644</p>
+                <p>Основные ТФ: NFKB1 (0 сайтов), NFKB2 (644 сайтов)</p>
+            </div>
+            <div class="family-card">
+                <h3>Forkhead (1 ТФ)</h3>
+                <p>Общее количество сайтов связывания: 374</p>
+                <p>Основные ТФ: FOXA1 (374 сайтов)</p>
+            </div>
+            <div class="family-card">
+                <h3>Цинковые пальцы C2H2 (5 ТФ)</h3>
+                <p>Общее количество сайтов связывания: 370</p>
+                <p>Основные ТФ: CTCF (0 сайтов), REST (20 сайтов), PLAG1 (0 сайтов), ZNF24 (54 сайтов), RAMOSA1 (296 сайтов)</p>
+            </div>
+            <div class="family-card">
+                <h3>COE (1 ТФ)</h3>
+                <p>Общее количество сайтов связывания: 246</p>
+                <p>Основные ТФ: EBF1 (246 сайтов)</p>
+            </div>
+            <div class="family-card">
+                <h3>POU, HMG (1 ТФ)</h3>
+                <p>Общее количество сайтов связывания: 222</p>
+                <p>Основные ТФ: Pou5f1::Sox2 (222 сайтов)</p>
+            </div>
+            <div class="family-card">
+                <h3>ETS (1 ТФ)</h3>
+                <p>Общее количество сайтов связывания: 212</p>
+                <p>Основные ТФ: SPI1 (212 сайтов)</p>
+            </div>
+            <div class="family-card">
+                <h3>Ядерные рецепторы (2 ТФ)</h3>
+                <p>Общее количество сайтов связывания: 160</p>
+                <p>Основные ТФ: HNF4A (160 сайтов), ESR2 (0 сайтов)</p>
+            </div>
+        </div>
+        
+        <div class="card">
             <h2>Общее распределение сайтов связывания</h2>
             <img src="binding_site_distribution.png" alt="Распределение сайтов связывания">
         </div>
@@ -338,7 +493,7 @@
         <div class="card">
             <h2>Тепловая карта сайтов связывания ТФ по генам</h2>
             <img src="binding_heatmap.png" alt="Тепловая карта ТФ">
-            <br><a href="interactive_heatmap.html" class="button">Просмотреть интерактивную версию</a>
+            {f'<br><a href="interactive_heatmap.html" class="button">Просмотреть интерактивную версию</a>' if has_interactive_heatmap else ''}
         </div>
     </div>
 </body>
