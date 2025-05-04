@@ -191,7 +191,7 @@ class HTMLVisualizer:
                 tf_target_genes[tf_id] = []
                 
                 for gene_name, binding_sites in tf_data['binding_data'].items():
-                    sites_count = len(binding_sites)
+                    sites_count = binding_sites['total_sites']
                     total_sites += sites_count
                     gene_binding_counts[gene_name] += sites_count
                     

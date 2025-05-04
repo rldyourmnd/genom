@@ -20,6 +20,10 @@ def parse_args():
                         help='Порог для определения сайтов связывания (0.0-1.0)')
     parser.add_argument('--download-motifs', action='store_true', 
                         help='Загрузить мотивы JASPAR перед анализом')
+    parser.add_argument('--extended-motifs', action='store_true', 
+                        help='Загрузить расширенный список ТФ человека из JASPAR (работает с --download-motifs)')
+    parser.add_argument('--max-tfs', type=int, default=50, 
+                        help='Максимальное количество ТФ для загрузки (работает с --extended-motifs)')
     parser.add_argument('--skip-analysis', action='store_true', 
                         help='Пропустить анализ генов, только сгенерировать визуализацию')
     parser.add_argument('--interactive-only', action='store_true',
@@ -43,7 +47,7 @@ def main():
         print("=== Шаг 1: Загрузка мотивов JASPAR ===")
         try:
             from download_known_tfs import download_tfs
-            download_tfs()
+            download_tfs(use_extended=args.extended_motifs, max_tfs=args.max_tfs)
         except Exception as e:
             print(f"Ошибка при загрузке мотивов: {e}")
             print("Используем существующие мотивы...")
